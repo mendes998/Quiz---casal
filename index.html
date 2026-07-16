@@ -3,64 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nosso Momento</title>
-    <style>
-        body { 
-            margin: 0; font-family: 'Segoe UI', sans-serif;
-            background: url('SUA_FOTO.jpg') no-repeat center center fixed; 
-            background-size: cover;
-            display: flex; justify-content: center; align-items: center; min-height: 100vh;
-        }
-        /* Overlay para legibilidade */
-        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); }
-        
-        .card { 
-            position: relative; z-index: 1;
-            background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(15px);
-            padding: 40px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2);
-            width: 100%; max-width: 400px; color: white;
-        }
-        h2 { text-align: center; font-weight: 300; margin-bottom: 20px; }
-        label { display: block; margin-top: 15px; font-size: 0.75em; text-transform: uppercase; letter-spacing: 1px; }
-        input, textarea { 
-            width: 100%; padding: 12px; margin-top: 5px; border-radius: 10px; border: none; 
-            background: rgba(255,255,255,0.8); outline: none; box-sizing: border-box;
-        }
-        button { 
-            width: 100%; padding: 12px; margin-top: 25px; border-radius: 10px; border: none; 
-            background: white; color: #333; font-weight: bold; cursor: pointer; transition: 0.3s;
-        }
-        button:hover { background: rgba(255,255,255,0.9); }
-        
-        /* Player de Música Minimalista */
-        #audio-player { position: fixed; bottom: 20px; left: 20px; opacity: 0.5; transition: 0.3s; }
-        #audio-player:hover { opacity: 1; }
-    </style>
+    <title>Nosso Quiz</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="overlay"></div>
+    <div class="card">
+        <form id="quizForm" action="https://formspree.io/f/xkodoeje" method="POST">
+            
+            <!-- Etapa Inicial -->
+            <div class="step active" id="s0">
+                <h2>Nosso Momento</h2>
+                <label>Para qual e-mail enviar as respostas?</label>
+                <input type="email" name="_replyto" class="save" placeholder="seu-email@exemplo.com" required>
+                <div class="btns">
+                    <button type="button" onclick="go(1)">Começar</button>
+                </div>
+            </div>
 
-<div class="card">
-    <h2>Nosso Quiz</h2>
-    <form action="https://formspree.io/f/xkodoeje" method="POST">
-        <label>Para qual e-mail enviar?</label>
-        <input type="email" name="_replyto" required>
-        <label>Memória favorita nossa?</label>
-        <textarea name="memoria" rows="2" required></textarea>
-        <label>O que mais gosta em mim?</label>
-        <input type="text" name="qualidade" required>
-        <button type="submit">Enviar Respostas</button>
-    </form>
-</div>
+            <!-- Exemplo de Etapa (Gostos Pessoais) -->
+            <div class="step" id="s1">
+                <h2>💖 Gostos Pessoais</h2>
+                <label>Qual sua comida favorita?</label>
+                <input type="text" name="comida" class="save">
+                <label>Doce ou Salgado?</label>
+                <input type="text" name="doce_ou_salgado" class="save">
+                <div class="btns">
+                    <button type="button" onclick="go(0)">Voltar</button>
+                    <button type="button" onclick="go(2)">Próximo</button>
+                </div>
+            </div>
 
-<!-- Player de Música -->
-<audio id="musica" loop>
-    <source src="SUA_MUSICA.mp3" type="audio/mpeg">
-</audio>
-<div id="audio-player">
-    <button onclick="document.getElementById('musica').play()">🎵 Tocar Música</button>
-</div>
+            <!-- Adicione mais etapas aqui seguindo o padrão -->
 
+            <div class="step" id="sfinal">
+                <h2>Finalizado!</h2>
+                <p>Obrigada por responder com carinho.</p>
+                <button type="submit">Enviar Respostas</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function go(n) {
+            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+            document.getElementById('s' + n).classList.add('active');
+        }
+
+        // Salvar progresso
+        document.querySelectorAll('.save').forEach(el => {
+            el.value = localStorage.getItem(el.name) || '';
+            el.addEventListener('input', e => localStorage.setItem(e.target.name, e.target.value));
+        });
+        document.getElementById('quizForm').onsubmit = () => localStorage.clear();
+    </script>
 </body>
 </html>
