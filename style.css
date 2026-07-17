@@ -1,4 +1,3 @@
-/* --- 1. Reset e Base --- */
 * { 
     margin: 0; 
     padding: 0; 
@@ -17,7 +16,6 @@ body {
     overflow-x: hidden;
 }
 
-/* --- 2. Camada da Foto de Fundo (À prova de bugs no computador e celular) --- */
 body::before {
     content: "";
     position: fixed;
@@ -27,7 +25,6 @@ body::before {
     bottom: 0;
     width: 100%; 
     height: 100%;
-    /* Verifique se o arquivo na pasta se chama exatamente fundo.jpg em minúsculas */
     background-image: url('MONTAGEM DE FOTOS AJUSTADA.png'); 
     background-repeat: no-repeat;
     background-position: center center;
@@ -35,7 +32,6 @@ body::before {
     z-index: -2;
 }
 
-/* Película escura fumê (60%) para destacar o texto e o cartão */
 body::after {
     content: "";
     position: fixed;
@@ -49,7 +45,6 @@ body::after {
     z-index: -1;
 }
 
-/* --- 3. O Cartão (Vidro Fumê Escuro e Premium) --- */
 .card { 
     background: rgba(15, 15, 15, 0.65); 
     backdrop-filter: blur(16px); 
@@ -64,7 +59,6 @@ body::after {
     overflow: hidden;
 }
 
-/* --- 4. Barra de Progresso --- */
 .progress-bar-container {
     position: absolute;
     top: 0;
@@ -81,7 +75,6 @@ body::after {
     transition: width 0.5s ease-in-out;
 }
 
-/* --- 5. Animações de Transição das Etapas --- */
 .step { 
     display: none; 
 }
@@ -102,7 +95,6 @@ body::after {
     } 
 }
 
-/* --- 6. Tipografia --- */
 h2 { 
     text-align: center; 
     color: #ff7eb3; 
@@ -129,7 +121,6 @@ label {
     color: #f0f0f0;
 }
 
-/* --- 7. Inputs e Alternativas Interativas --- */
 input[type="email"], input[type="text"] { 
     width: 100%; 
     padding: 14px; 
@@ -182,7 +173,6 @@ input[type="email"]:focus, input[type="text"]:focus {
     cursor: pointer;
 }
 
-/* --- 8. Botões Modernos --- */
 .btns { 
     display: flex; 
     gap: 12px; 
@@ -234,7 +224,6 @@ button {
     box-shadow: 0 6px 20px rgba(79, 172, 254, 0.5);
 }
 
-/* --- 9. Botão Flutuante de Música --- */
 .btn-sound {
     position: fixed;
     top: 20px;
@@ -261,22 +250,17 @@ button {
     box-shadow: 0 0 15px rgba(255, 126, 179, 0.4);
 }
 
-/* --- 10. Responsividade Total Otimizada para Celular (FOTO VERTICAL) --- */
 @media screen and (max-width: 600px) {
     body {
-        padding: 12px;
-        align-items: flex-start;
+        padding: 60px 12px 20px 12px; 
+        align-items: center; 
     }
 
-    /* AJUSTE PERFEITO PARA FOTO VERTICAL NO CELULAR: */
     body::before {
-        /* 'cover' faz a foto vertical preencher 100% da tela sem bordas pretas */
         background-size: cover; 
-        /* Centraliza a imagem focando no meio da foto */
         background-position: center center; 
     }
 
-    /* Película escura em 60% para garantir que o texto branco dê leitura perfeita */
     body::after {
         background: rgba(0, 0, 0, 0.60);
     }
@@ -284,11 +268,9 @@ button {
     .card {
         padding: 25px 18px;
         border-radius: 20px;
-        /* Espaço de 55px no topo para não encostar no botão de música */
-        margin-top: 55px; 
-        margin-bottom: 20px;
+        margin: auto 0; 
         width: 100%;
-        background: rgba(15, 15, 15, 0.75); /* Vidro fumê bem legível no mobile */
+        background: rgba(15, 15, 15, 0.75); 
     }
 
     h2 {
