@@ -268,18 +268,29 @@ button {
         align-items: flex-start;
     }
 
-    /* Ajuste de enquadramento: foca na parte superior da foto (onde ficam os rostos) */
+    /* O SEGREDO PARA FOTO HORIZONTAL NO CELULAR: */
     body::before {
-        background-position: center 20%; 
+        /* 'contain' força a foto horizontal a caber inteira sem zoom e sem cortes */
+        background-size: contain; 
+        /* Fixa a foto perfeitamente no topo da tela do celular */
+        background-position: center top; 
+        /* Preenche o restante da tela vertical com um fundo escuro elegante */
+        background-color: #121212; 
+    }
+
+    /* Suavizamos a película escura no celular para a foto brilhar mais no topo */
+    body::after {
+        background: rgba(0, 0, 0, 0.45);
     }
 
     .card {
         padding: 25px 18px;
         border-radius: 20px;
-        margin-top: 55px; 
+        /* Dá um espaço no topo para mostrar um pedaço limpo da foto antes de o cartão cobrir */
+        margin-top: 110px; 
         margin-bottom: 20px;
         width: 100%;
-        background: rgba(12, 12, 12, 0.75); /* Fundo um pouco mais escuro no mobile para máxima legibilidade */
+        background: rgba(12, 12, 12, 0.80);
     }
 
     h2 {
