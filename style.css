@@ -7,37 +7,54 @@
 }
 
 body { 
-    /* Coloque aqui o link ou o nome da sua foto de fundo */
-    background: url('MONTAGEM DE FOTOS .png') no-repeat center center fixed; 
-    background-size: cover; 
     display: flex; 
     justify-content: center; 
     align-items: center; 
     min-height: 100vh; 
     color: #fff; 
     padding: 20px;
+    position: relative;
+    overflow-x: hidden;
 }
 
-/* Película escura sobre a foto para destacar o texto */
+/* Camada da Foto de Fundo (À prova de bugs no mobile) */
 body::before {
     content: "";
     position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.55); 
+    top: 0; 
+    left: 0; 
+    width: 100vw; 
+    height: 100vh;
+    /* Substitua pelo nome ou link da sua foto */
+    background: url('MONTAGEM DE FOTOS .png') no-repeat center center; 
+    background-size: cover;
+    z-index: -2;
+}
+
+/* Película escura sobre a foto para dar destaque e leitura */
+body::after {
+    content: "";
+    position: fixed;
+    top: 0; 
+    left: 0; 
+    width: 100vw; 
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.60); /* Escurecida para 60% */
     z-index: -1;
 }
 
-/* --- 2. O Cartão (Glassmorphism / Efeito Vidro) --- */
+/* --- 2. O Cartão (Vidro Fumê / Mais Escuro e Elegante) --- */
 .card { 
-    background: rgba(255, 255, 255, 0.12); 
+    /* Mudado de branco para tom escuro fumê translúcido */
+    background: rgba(15, 15, 15, 0.55); 
     backdrop-filter: blur(16px); 
     -webkit-backdrop-filter: blur(16px);
     padding: 35px 30px; 
     border-radius: 24px; 
     width: 100%; 
     max-width: 480px; 
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
     position: relative;
     overflow: hidden;
 }
@@ -49,7 +66,7 @@ body::before {
     left: 0;
     width: 100%;
     height: 6px;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.08);
 }
 
 .progress-bar {
@@ -93,7 +110,7 @@ h2 {
 .subtitle {
     text-align: center;
     font-size: 0.9em;
-    opacity: 0.8;
+    opacity: 0.85;
     margin-bottom: 25px;
     line-height: 1.4;
 }
@@ -113,8 +130,8 @@ input[type="email"], input[type="text"] {
     padding: 14px; 
     margin-top: 8px; 
     border-radius: 12px; 
-    border: 1px solid rgba(255,255,255,0.2); 
-    background: rgba(0, 0, 0, 0.25); 
+    border: 1px solid rgba(255, 255, 255, 0.15); 
+    background: rgba(0, 0, 0, 0.4); 
     color: white; 
     font-size: 0.95em;
     outline: none;
@@ -124,7 +141,7 @@ input[type="email"], input[type="text"] {
 input[type="email"]:focus, input[type="text"]:focus {
     border-color: #ff7eb3;
     box-shadow: 0 0 10px rgba(255, 126, 179, 0.3);
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.6);
 }
 
 .options { 
@@ -138,7 +155,7 @@ input[type="email"]:focus, input[type="text"]:focus {
     display: flex; 
     align-items: center; 
     padding: 14px 16px; 
-    background: rgba(255, 255, 255, 0.08); 
+    background: rgba(255, 255, 255, 0.06); 
     border-radius: 12px; 
     cursor: pointer; 
     transition: all 0.2s ease;
@@ -147,7 +164,7 @@ input[type="email"]:focus, input[type="text"]:focus {
 }
 
 .options label:hover { 
-    background: rgba(255, 255, 255, 0.18); 
+    background: rgba(255, 255, 255, 0.15); 
     transform: translateX(5px);
     border-color: rgba(255, 126, 179, 0.4);
 }
@@ -195,12 +212,12 @@ button {
 
 .btn-sec { 
     flex: 1; 
-    background: rgba(255, 255, 255, 0.15); 
+    background: rgba(255, 255, 255, 0.1); 
     color: #fff; 
 }
 
 .btn-sec:hover { 
-    background: rgba(255, 255, 255, 0.25); 
+    background: rgba(255, 255, 255, 0.2); 
 }
 
 .btn-submit {
@@ -217,19 +234,19 @@ button {
     position: fixed;
     top: 20px;
     right: 20px;
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, 0.7);
     backdrop-filter: blur(8px);
-    border: 1px solid rgba(255,255,255,0.2);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     color: white;
     padding: 10px 18px;
     border-radius: 30px;
     font-size: 0.85em;
     z-index: 100;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
 }
 
 .btn-sound:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.15);
     transform: scale(1.05);
 }
 
@@ -239,23 +256,31 @@ button {
     box-shadow: 0 0 15px rgba(255, 126, 179, 0.4);
 }
 
-/* --- 9. Responsividade Total (Mobile Friendly) --- */
+/* --- 9. Responsividade Total Otimizada para Celular --- */
 @media screen and (max-width: 600px) {
     body {
-        padding: 10px;
+        padding: 12px;
         align-items: flex-start;
+    }
+
+    /* Ajuste da foto no celular para focar no centro/topo e evitar esticar */
+    body::before {
+        background-position: center top; 
+        background-attachment: scroll; /* Evita o bug de rolagem do iOS/Android */
     }
 
     .card {
         padding: 25px 18px;
-        border-radius: 18px;
-        margin-top: 50px;
-        max-width: 100%;
+        border-radius: 20px;
+        margin-top: 55px; /* Espaço seguro para o botão de música não cobrir o título */
+        margin-bottom: 20px;
+        width: 100%;
+        background: rgba(12, 12, 12, 0.70); /* No celular, um pouco mais escuro para garantir leitura perfeita */
     }
 
     h2 {
-        font-size: 1.4em;
-        margin-bottom: 15px;
+        font-size: 1.35em;
+        margin-bottom: 12px;
     }
 
     .subtitle {
@@ -270,7 +295,7 @@ button {
 
     .options label {
         padding: 14px 12px;
-        font-size: 0.95em;
+        font-size: 0.92em;
     }
 
     .options input[type="radio"] {
@@ -290,10 +315,9 @@ button {
     }
 
     .btn-sound {
-        top: 10px;
-        right: 10px;
+        top: 12px;
+        right: 12px;
         padding: 8px 14px;
         font-size: 0.75em;
-        background: rgba(0, 0, 0, 0.75);
     }
 }
