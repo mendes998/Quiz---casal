@@ -1,299 +1,1012 @@
-/* --- 1. Reset e Base --- */
-* { 
-    margin: 0; 
-    padding: 0; 
-    box-sizing: border-box; 
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nosso Quiz Especial</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-body { 
-    /* Coloque aqui o link ou o nome da sua foto de fundo */
-    background: url('MONTAGEM DE FOTOS.png') no-repeat center center fixed; 
-    background-size: cover; 
-    display: flex; 
-    justify-content: center; 
-    align-items: center; 
-    min-height: 100vh; 
-    color: #fff; 
-    padding: 20px;
-}
+<!-- Player de Música Flutuante -->
+<audio id="musica" loop>
+    <source src="golden-hour-official-lyric-video.mp3" type="audio/mpeg">
+</audio>
+<button id="btnMusica" class="btn-sound" onclick="toggleMusica()">🎵 Tocar Música</button>
 
-/* Película escura sobre a foto para destacar o texto */
-body::before {
-    content: "";
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.55); 
-    z-index: -1;
-}
+<div class="card">
+    <div class="progress-bar-container">
+        <div class="progress-bar" id="barraProgresso"></div>
+    </div>
 
-/* --- 2. O Cartão (Glassmorphism / Efeito Vidro) --- */
-.card { 
-    background: rgba(255, 255, 255, 0.12); 
-    backdrop-filter: blur(16px); 
-    -webkit-backdrop-filter: blur(16px);
-    padding: 35px 30px; 
-    border-radius: 24px; 
-    width: 100%; 
-    max-width: 480px; 
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    box-shadow: 0 20px 50px rgba(0,0,0,0.4);
-    position: relative;
-    overflow: hidden;
-}
+    <form id="quizForm">
+        
+        <!-- ====================================================== -->
+        <!-- ETAPA 0: INÍCIO E E-MAIL -->
+        <!-- ====================================================== -->
+        <div class="step active" id="s0">
+            <h2>Nosso Momento</h2>
+            <p class="subtitle">Um quiz especial (feito por mim) com 100 perguntas para testar nossa conexão e memórias ✨</p>
+            <label>Para qual e-mail enviar as respostas?</label>
+            <input type="email" name="user_email" class="save" placeholder="seu-email@exemplo.com" required>
+            <div class="btns">
+                <button type="button" class="btn-main" onclick="go(1)">Começar o Quiz ➔</button>
+            </div>
+        </div>
 
-/* --- 3. Barra de Progresso --- */
-.progress-bar-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 6px;
-    background: rgba(255, 255, 255, 0.1);
-}
+        <!-- ====================================================== -->
+        <!-- ETAPA 1: 💖 GOSTOS PESSOAIS -->
+        <!-- ====================================================== -->
+        <div class="step" id="s1">
+            <h2>💖 Gostos Pessoais</h2>
+            
+            <label>1. Qual é sua comida favorita?</label>
+            <div class="options">
+                <label><input type="radio" name="g_comida" value="Massa/Italiana"> 🍝 Massa / Italiana</label>
+                <label><input type="radio" name="g_comida" value="Churrasco/Carnes"> 🥩 Churrasco / Carnes</label>
+                <label><input type="radio" name="g_comida" value="Japonesa/Oriental"> 🍣 Japonesa / Oriental</label>
+                <label><input type="radio" name="g_comida" value="Fast Food/Lanches"> 🍔 Fast Food / Lanches</label>
+            </div>
 
-.progress-bar {
-    height: 100%;
-    width: 0%;
-    background: linear-gradient(90deg, #ff758c, #ff7eb3);
-    transition: width 0.5s ease-in-out;
-}
+            <label>2. Qual sobremesa você nunca recusaria?</label>
+            <div class="options">
+                <label><input type="radio" name="g_sobremesa" value="Chocolate/Brigadeiro"> 🍫 Chocolate / Brigadeiro</label>
+                <label><input type="radio" name="g_sobremesa" value="Sorvete/Gelato"> 🍦 Sorvete / Gelato</label>
+                <label><input type="radio" name="g_sobremesa" value="Bolo/Torta"> 🍰 Bolo / Torta doce</label>
+                <label><input type="radio" name="g_sobremesa" value="Pudim/Doces tradicionais"> 🍮 Pudim / Doces tradicionais</label>
+            </div>
 
-/* --- 4. Animações de Transição das Etapas --- */
-.step { 
-    display: none; 
-}
+            <label>3. Qual bebida você mais gosta?</label>
+            <div class="options">
+                <label><input type="radio" name="g_bebida" value="Suco/Refrigerante"> 🥤 Suco ou Refrigerante</label>
+                <label><input type="radio" name="g_bebida" value="Cerveja/Chopp"> 🍺 Cerveja ou Chopp gelado</label>
+                <label><input type="radio" name="g_bebida" value="Vinho/Drink"> 🍷 Vinho ou Drinks especiais</label>
+                <label><input type="radio" name="g_bebida" value="Cafe/Agua"> ☕ Café ou Água com gás</label>
+            </div>
 
-.step.active { 
-    display: block; 
-    animation: slideUpFade 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
-}
+            <label>4. Praia ou montanha?</label>
+            <div class="options">
+                <label><input type="radio" name="g_local" value="Praia"> 🏖️ Praia e sol</label>
+                <label><input type="radio" name="g_local" value="Montanha"> ⛰️ Montanha e serra</label>
+            </div>
 
-@keyframes slideUpFade { 
-    from { 
-        opacity: 0; 
-        transform: translateY(20px); 
-    } 
-    to { 
-        opacity: 1; 
-        transform: translateY(0); 
-    } 
-}
+            <label>5. Dia ou noite?</label>
+            <div class="options">
+                <label><input type="radio" name="g_periodo" value="Dia"> ☀️ Dia (aproveitar o sol)</label>
+                <label><input type="radio" name="g_periodo" value="Noite"> 🌙 Noite (paz e silêncio)</label>
+                <label><input type="radio" name="g_periodo" value="Os dois"> ☀️🌙 Os dois (dependendo do dia)</label>
+            </div>
 
-/* --- 5. Tipografia --- */
-h2 { 
-    text-align: center; 
-    color: #ff7eb3; 
-    margin-top: 10px;
-    margin-bottom: 8px; 
-    font-weight: 600; 
-    letter-spacing: 0.5px;
-}
+            <label>6. Café ou chá?</label>
+            <div class="options">
+                <label><input type="radio" name="g_cafe_cha" value="Cafe"> ☕ Café para despertar</label>
+                <label><input type="radio" name="g_cafe_cha" value="Cha"> 🍵 Chá para relaxar</label>
+                <label><input type="radio" name="g_cafe_cha" value="Os dois"> ☕🍵 Os dois (dependendo do momento)</label>
+            </div>
 
-.subtitle {
-    text-align: center;
-    font-size: 0.9em;
-    opacity: 0.8;
-    margin-bottom: 25px;
-    line-height: 1.4;
-}
+            <label>7. Doce ou salgado?</label>
+            <div class="options">
+                <label><input type="radio" name="g_doce_salgado" value="Doce"> 🍫 Formiga para doces</label>
+                <label><input type="radio" name="g_doce_salgado" value="Salgado"> 🍕 Amante de salgados</label>
+            </div>
 
-label { 
-    display: block; 
-    margin-top: 18px; 
-    font-size: 0.9em; 
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    color: #f0f0f0;
-}
+            <label>8. Verão ou inverno?</label>
+            <div class="options">
+                <label><input type="radio" name="g_estacao" value="Verao"> ☀️ Verão (calor e piscina)</label>
+                <label><input type="radio" name="g_estacao" value="Inverno"> ❄️ Inverno (frio e coberta)</label>
+            </div>
 
-/* --- 6. Inputs e Alternativas Interativas --- */
-input[type="email"], input[type="text"] { 
-    width: 100%; 
-    padding: 14px; 
-    margin-top: 8px; 
-    border-radius: 12px; 
-    border: 1px solid rgba(255,255,255,0.2); 
-    background: rgba(0, 0, 0, 0.25); 
-    color: white; 
-    font-size: 0.95em;
-    outline: none;
-    transition: all 0.3s ease;
-}
+            <label>9. Qual sua paleta de cor favorita?</label>
+            <div class="options">
+                <label><input type="radio" name="g_cor" value="Tons Escuros"> 🖤 Tons escuros (Preto, Azul Marinho, Cinza)</label>
+                <label><input type="radio" name="g_cor" value="Tons Claros"> 🤍 Tons claros e neutros (Branco, Bege, Pastel)</label>
+                <label><input type="radio" name="g_cor" value="Cores Vibrantes"> ❤️ Cores vibrantes e alegres (Vermelho, Amarelo)</label>
+                <label><input type="radio" name="g_cor" value="Cores Frias"> 💙 Cores frias e calmas (Azul, Verde, Roxo)</label>
+            </div>
 
-input[type="email"]:focus, input[type="text"]:focus {
-    border-color: #ff7eb3;
-    box-shadow: 0 0 10px rgba(255, 126, 179, 0.3);
-    background: rgba(0, 0, 0, 0.4);
-}
+            <label>10. Qual seu animal favorito?</label>
+            <div class="options">
+                <label><input type="radio" name="g_animal" value="Cachorro"> 🐶 Cachorro (leal e companheiro)</label>
+                <label><input type="radio" name="g_animal" value="Gato"> 🐱 Gato (independente e carinhoso)</label>
+                <label><input type="radio" name="g_animal" value="Passaros/Outros"> 🦜 Pássaros ou outros animais exóticos</label>
+                <label><input type="radio" name="g_animal" value="Nenhum"> 🚫 Não sou muito apegado(a) a animais</label>
+            </div>
 
-.options { 
-    display: flex; 
-    flex-direction: column; 
-    gap: 10px; 
-    margin: 12px 0 20px; 
-}
+            <div class="btns">
+                <button type="button" class="btn-sec" onclick="go(0)">⬅ Voltar</button>
+                <button type="button" class="btn-main" onclick="go(2)">Próximo Tópico ➔</button>
+            </div>
+        </div>
 
-.options label { 
-    display: flex; 
-    align-items: center; 
-    padding: 14px 16px; 
-    background: rgba(255, 255, 255, 0.08); 
-    border-radius: 12px; 
-    cursor: pointer; 
-    transition: all 0.2s ease;
-    margin-top: 0;
-    border: 1px solid transparent;
-}
+        <!-- ====================================================== -->
+        <!-- ETAPA 2: 🎬 FILMES E SÉRIES -->
+        <!-- ====================================================== -->
+        <div class="step" id="s2">
+            <h2>🎬 Filmes e Séries</h2>
+            
+            <label>11. Qual seu gênero de filme favorito?</label>
+            <div class="options">
+                <label><input type="radio" name="f_genero" value="Acao/Aventura"> 💥 Ação e Aventura</label>
+                <label><input type="radio" name="f_genero" value="Comedia/Romance"> 😂 Comédia e Romance</label>
+                <label><input type="radio" name="f_genero" value="Terror/Suspense"> 👻 Terror e Suspense</label>
+                <label><input type="radio" name="f_genero" value="Ficcao/Fantasia"> 🧙‍♂️ Ficção Científica e Fantasia</label>
+                <label><input type="radio" name="f_genero" value="Todos"> 🎬 Todos os gêneros exceto Terror</label>
+            </div>
 
-.options label:hover { 
-    background: rgba(255, 255, 255, 0.18); 
-    transform: translateX(5px);
-    border-color: rgba(255, 126, 179, 0.4);
-}
+            <label>12. Qual estilo de série você assistiria várias vezes?</label>
+            <div class="options">
+                <label><input type="radio" name="f_serie" value="Sitcom/Comedia"> 🛋️ Sitcoms rápidas (Friends, The Office, etc.)</label>
+                <label><input type="radio" name="f_serie" value="Drama/Suspense"> 🕵️‍♂️ Dramas e investigações criminais</label>
+                <label><input type="radio" name="f_serie" value="Fantasia/Ficcao"> 🐉 Universos de fantasia e super-heróis</label>
+                <label><input type="radio" name="f_serie" value="Minisseries"> 🎬 Minisséries curtas e impactantes</label>
+                <label><input type="radio" name="f_serie" value="Um pouco de cada"> 🎬 Um pouco de cada tipo</label>
+            </div>
 
-.options input[type="radio"] { 
-    accent-color: #ff7eb3;
-    width: 18px;
-    height: 18px;
-    margin-right: 12px; 
-    cursor: pointer;
-}
+            <label>13. Qual tipo de personagem mais parece com você?</label>
+            <div class="options">
+                <label><input type="radio" name="f_personagem" value="Engracado"> 🤡 O alívio cômico que faz todos rirem</label>
+                <label><input type="radio" name="f_personagem" value="Estrategista"> 🧠 O líder inteligente e calculista</label>
+                <label><input type="radio" name="f_personagem" value="Emotivo"> ❤️ O romântico leal e apaixonado</label>
+                <label><input type="radio" name="f_personagem" value="Aventureiro"> 🗡️ O aventureiro destemido</label>
+            </div>
 
-/* --- 7. Botões Modernos --- */
-.btns { 
-    display: flex; 
-    gap: 12px; 
-    margin-top: 30px; 
-}
+            <label>14. Terror ou comédia?</label>
+            <div class="options">
+                <label><input type="radio" name="f_terror_comedia" value="Terror"> 👻 Terror para levar susto junto</label>
+                <label><input type="radio" name="f_terror_comedia" value="Comedia"> 😂 Comédia para rir até chorar</label>
+            </div>
 
-button { 
-    padding: 14px; 
-    border: none; 
-    border-radius: 12px; 
-    font-weight: 600; 
-    font-size: 0.95em;
-    cursor: pointer; 
-    transition: all 0.3s ease;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-}
+            <label>15. Romance ou ação?</label>
+            <div class="options">
+                <label><input type="radio" name="f_romance_acao" value="Romance"> ❤️ Romance para aquecer o coração</label>
+                <label><input type="radio" name="f_romance_acao" value="Acao"> 💥 Ação pura com adrenalina</label>
+                <label><input type="radio" name="f_romance_acao" value="Junção"> ❤️💥Os dois</label>
+            </div>
 
-.btn-main { 
-    flex: 2; 
-    background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%); 
-    color: white; 
-    box-shadow: 0 4px 15px rgba(255, 117, 140, 0.3);
-}
+            <label>16. Filme em casa ou no cinema?</label>
+            <div class="options">
+                <label><input type="radio" name="f_local" value="Casa"> 🍿 Em casa no sofá de pijama e coberta</label>
+                <label><input type="radio" name="f_local" value="Cinema"> 🎟️ No cinema com tela gigante e pipoca amanteigada</label>
+                <label><input type="radio" name="f_local" value="Depende"> 🍿🎟️ Depende do momento (amo os dois)</label>
+            </div>
 
-.btn-main:hover { 
-    transform: translateY(-2px); 
-    box-shadow: 0 6px 20px rgba(255, 117, 140, 0.5);
-}
+            <label>17. Qual tipo de filme te faz chorar?</label>
+            <div class="options">
+                <label><input type="radio" name="f_choro" value="Romance Dramatico"> 💔 Romances dramáticos e finais tristes</label>
+                <label><input type="radio" name="f_choro" value="Animais"> 🐕 Histórias emocionantes com animais</label>
+                <label><input type="radio" name="f_choro" value="Superacao"> 🏆Superação baseada em fatos reais</label>
+                <label><input type="radio" name="f_choro" value="Romance+animais"> 💔🐕 Romance e animais</label>
+                <label><input type="radio" name="f_choro" value="Nenhum"> 🪨 Quase nunca choro assistindo nada</label>
+            </div>
 
-.btn-sec { 
-    flex: 1; 
-    background: rgba(255, 255, 255, 0.15); 
-    color: #fff; 
-}
+            <label>18. Que tipo de série você indicaria de olhos fechados?</label>
+            <div class="options">
+                <label><input type="radio" name="f_indica" value="Classico"> ⭐ Um clássico aclamado por todo mundo</label>
+                <label><input type="radio" name="f_indica" value="Suspense"> 🔒 Um suspense que prende do início ao fim</label>
+                <label><input type="radio" name="f_indica" value="Comedia Leve"> ☀️ Uma comédia leve para desestressar</label>
+                <label><input type="radio" name="f_indica" value="Documentario"> 📚 Uma história real ou documentário intrigante</label>
+            </div>
 
-.btn-sec:hover { 
-    background: rgba(255, 255, 255, 0.25); 
-}
+            <label>19. Qual filme você evitaria assistir novamente?</label>
+            <div class="options">
+                <label><input type="radio" name="f_evita" value="Terror Pesado"> 🔪 Terror psicológico muito pesado</label>
+                <label><input type="radio" name="f_evita" value="Longo e Parado"> ⏳ Filme muito longo, parado e sem ritmo</label>
+                <label><input type="radio" name="f_evita" value="Final Triste"> 😭 Histórias com finais deprimentes</label>
+                <label><input type="radio" name="f_evita" value="Cliche Bobo"> 🙄 Comédias clichês e sem graça</label>
+            </div>
 
-.btn-submit {
-    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-    box-shadow: 0 4px 15px rgba(79, 172, 254, 0.3);
-}
+            <label>20. Qual universo animado marcou sua infância?</label>
+            <div class="options">
+                <label><input type="radio" name="f_infancia" value="Disney/Pixar"> 🏰 Os clássicos da Disney e Pixar</label>
+                <label><input type="radio" name="f_infancia" value="Animes"> ⚡ Animes (Dragon Ball, Naruto, Pokémon, etc.)</label>
+                <label><input type="radio" name="f_infancia" value="Cartoon Network"> 📺 Desenhos da TV Globinho ou Cartoon Network</label>
+                <label><input type="radio" name="f_infancia" value="Herois"> 🦸‍♂️ Desenhos de heróis (Liga da Justiça, X-Men)</label>
+                <label><input type="radio" name="f_infancia" value="Um pouco de cada"> 📺🦸‍♂️ Um pouco de cada</label>
+            </div>
 
-.btn-submit:hover {
-    box-shadow: 0 6px 20px rgba(79, 172, 254, 0.5);
-}
+            <div class="btns">
+                <button type="button" class="btn-sec" onclick="go(1)">⬅ Voltar</button>
+                <button type="button" class="btn-main" onclick="go(3)">Próximo Tópico ➔</button>
+            </div>
+        </div>
 
-/* --- 8. Botão Flutuante de Música --- */
-.btn-sound {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(8px);
-    border: 1px solid rgba(255,255,255,0.2);
-    color: white;
-    padding: 10px 18px;
-    border-radius: 30px;
-    font-size: 0.85em;
-    z-index: 100;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-}
+        <!-- ====================================================== -->
+        <!-- ETAPA 3: 🎵 MÚSICA -->
+        <!-- ====================================================== -->
+        <div class="step" id="s3">
+            <h2>🎵 Música</h2>
+            
+            <label>21. Qual seu estilo de cantor(a) ou banda favorito? Lembrando que todos são Cristãos!</label>
+            <div class="options">
+                <label><input type="radio" name="m_favorito" value="Louvor e adoração"> 🙌 Louvor e adoração</label>
+                <label><input type="radio" name="m_favorito" value="Pop Gospel"> 🎤 Pop Gospel</label>
+                <label><input type="radio" name="m_favorito" value="Rock Gospel"> 🎸 Rock Gospel</label>
+                <label><input type="radio" name="m_favorito" value="Rap e Trap Gospel"> 🎧 Eletrônica /Rap/ Trap Gospel</label>
+            </div>
 
-.btn-sound:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: scale(1.05);
-}
+            <label>22. Qual estilo de música representa sua vibe?</label>
+            <div class="options">
+                <label><input type="radio" name="m_vibe" value="Animada"> 💃 Animada e dançante (energia lá no alto)</label>
+                <label><input type="radio" name="m_vibe" value="Emotiva"> 📝 Letras profundas, poéticas e emotivas</label>
+                <label><input type="radio" name="m_vibe" value="Acustica"> 🍃 Acústica, calma e relaxante (Lofi/MPB)</label>
+                <label><input type="radio" name="m_vibe" value="Intensa"> 🔥 Batidas fortes, marcantes e intensas</label>
+            </div>
 
-.btn-sound.playing {
-    border-color: #ff7eb3;
-    background: rgba(255, 126, 179, 0.2);
-    box-shadow: 0 0 15px rgba(255, 126, 179, 0.4);
-}
+            <label>23. Que tipo de música lembra nossa relação?</label>
+            <div class="options">
+                <label><input type="radio" name="m_relacao" value="Romantica"> ❤️ Uma música romântica e carinhosa</label>
+                <label><input type="radio" name="m_relacao" value="Animada"> 🥳 Um hit animado de festa ou viagem nossa</label>
+                <label><input type="radio" name="m_relacao" value="Acustica"> 🌅 Uma canção tranquila de fim de semana juntos</label>
+                <label><input type="radio" name="m_relacao" value="Mista"> 🔀 Nossa playlist mista e imprevisível</label>
+            </div>
 
-/* --- 9. Responsividade Total (Mobile Friendly) --- */
-@media screen and (max-width: 600px) {
-    body {
-        padding: 10px;
-        align-items: flex-start;
+            <label>24. Você prefere ouvir música alta ou baixa?</label>
+            <div class="options">
+                <label><input type="radio" name="m_volume" value="Alta"> 🔊 Bem alta para sentir cada batida e cantar junto</label>
+                <label><input type="radio" name="m_volume" value="Baixa"> 🔈 Baixa e ambiente apenas para relaxar e focar</label>
+                <label><input type="radio" name="m_volume" value="Momento"> 🔊🔈 Depende do momento</label>
+            </div>
+
+            <label>25. Qual estilo musical você mais escuta no dia a dia?</label>
+            <div class="options">
+                <label><input type="radio" name="m_estilo" value="Pop/Rock"> 🎸 Pop e Rock Gospel</label>
+                <label><input type="radio" name="m_estilo" value="Sertanejo/Pagode"> 🙌 Louvor e adoração</label>
+                <label><input type="radio" name="m_estilo" value="Eletronica/Funk"> ⚡ Eletrônica Gospel</label>
+                <label><input type="radio" name="m_estilo" value="MPB/Indie"> 🎼 MPB, Indie ou R&B Gospel</label>
+            </div>
+
+            <label>26. Qual experiência musical você sonha em viver?</label>
+            <div class="options">
+                <label><input type="radio" name="m_show" value="Conferência"> 🙌 Participar de uma grande conferência de louvor e adoração</label>
+                <label><input type="radio" name="m_show" value="Show Internacional"> ✈️ Assistir ao show de um artista cristão internacional</label>
+                <label><input type="radio" name="m_show" value="Noite de adoração"> 🎻 Participar de uma noite de adoração mais íntima e acústica</label>
+                <label><input type="radio" name="m_show" value="Festival Gospel"> 🎤 Ir a um grande festival de música cristã</label>
+            </div>
+
+            <label>27. O que uma música precisa ter para te emocionar?</label>
+            <div class="options">
+                <label><input type="radio" name="m_emociona" value="Letra"> 📖 Uma letra profunda que me faça identificar</label>
+                <label><input type="radio" name="m_emociona" value="Melodia"> 🎹 Uma melodia e instrumental arrepiantes</label>
+                <label><input type="radio" name="m_emociona" value="Memoria"> 🕰️ Me lembrar de uma época ou pessoa especial</label>
+                <label><input type="radio" name="m_emociona" value="Voz"> 🎙️ A potência e interpretação da voz do artista</label>
+            </div>
+
+            <label>28. Que tipo de música você sabe cantar inteira?</label>
+            <div class="options">
+                <label><input type="radio" name="m_cantar" value="Louvores Clássicos"> 🎶 Louvores clássicos que marcaram gerações</label>
+                <label><input type="radio" name="m_cantar" value="Worship"> 🙌 Músicas de worship e adoração</label>
+                <label><input type="radio" name="m_cantar" value="Rap ou Trap Gospel">  🎧 Rap ou Trap Gospel</label>
+                <label><input type="radio" name="m_cantar" value="Corinhos"> ✨ Corinhos e hinos tradicionais da igreja</label>
+            </div>
+
+            <label>29. Qual tipo de música cristã te anima instantaneamente?</label>
+            <div class="options">
+                <label><input type="radio" name="m_anima" value="Louvor Animado"> 🎉 Louvores animados e de celebração</label>
+                <label><input type="radio" name="m_anima" value="Worship"> 🙌 Worship e adoração</label>
+                <label><input type="radio" name="m_anima" value="Trap Gospel"> 🎧 Rap ou Trap Gospel</label>
+                <label><input type="radio" name="m_anima" value="Corinhos"> ✨ Corinhos e músicas alegres da igreja</label>
+            </div>
+
+            <label>30. O que você mais escuta atualmente?</label>
+            <div class="options">
+                <label><input type="radio" name="m_atualmente" value="Lançamentos Gospel"> 📈 Os lançamentos da música cristã</label>
+                <label><input type="radio" name="m_atualmente" value="Louvores Clássicos"> 📼 Louvores clássicos que nunca saem da playlist</label>
+                <label><input type="radio" name="m_atualmente" value="Podcasts/pregações"> 🎧 Pregações, devocionais ou podcasts cristãos</label>
+                <label><input type="radio" name="m_atualmente" value="Playlist Variada"> 🎲 Uma playlist variada com louvores de vários estilos</label>
+            </div>
+
+            <div class="btns">
+                <button type="button" class="btn-sec" onclick="go(2)">⬅ Voltar</button>
+                <button type="button" class="btn-main" onclick="go(4)">Próximo Tópico ➔</button>
+            </div>
+        </div>
+
+        <!-- ====================================================== -->
+        <!-- ETAPA 4: ✈️ SONHOS E VIAGENS -->
+        <!-- ====================================================== -->
+        <div class="step" id="s4">
+            <h2>✈️ Sonhos e Viagens</h2>
+            
+            <label>31. Qual continente/país você mais quer conhecer?</label>
+            <div class="options">
+                <label><input type="radio" name="v_destino" value="Europa"> 🏰 Europa (Itália, França, Inglaterra, etc.)</label>
+                <label><input type="radio" name="v_destino" value="EUA/Canada"> 🗽 América do Norte (EUA, Canadá)</label>
+                <label><input type="radio" name="v_destino" value="Asia"> ⛩️ Ásia (Japão, Tailândia, Coreia, etc.)</label>
+                <label><input type="radio" name="v_destino" value="America do Sul"> 🏔️ América do Sul (Argentina, Chile, Peru)</label>
+            </div>
+
+            <label>32. Qual estilo de destino no Brasil você prefere?</label>
+            <div class="options">
+                <label><input type="radio" name="v_brasil" value="Nordeste"> 🌴 Nordeste (Praias paradisíacas e calor)</label>
+                <label><input type="radio" name="v_brasil" value="Sul"> 🍷 Sul (Serras, frio, vinhos e gastronomia)</label>
+                <label><input type="radio" name="v_brasil" value="Metropoles"> 🏙️ Rio de Janeiro ou São Paulo (Cultura e agito)</label>
+                <label><input type="radio" name="v_brasil" value="Ecoturismo"> 🌿 Centro-Oeste / Norte (Chapadas, Bonito, Amazônia)</label>
+            </div>
+
+            <label>33. Viagem de aventura ou descanso?</label>
+            <div class="options">
+                <label><input type="radio" name="v_estilo" value="Aventura"> 🎒 Aventura (explorar tudo, andar muito e conhecer pontos turísticos)</label>
+                <label><input type="radio" name="v_estilo" value="Descanso"> 🍹 Descanso (relaxar na piscina/praia sem horário pra nada)</label>
+            </div>
+
+            <label>34. Hotel ou chalé?</label>
+            <div class="options">
+                <label><input type="radio" name="v_hospedagem" value="Hotel"> 🏨 Hotel moderno, confortável e com serviço completo</label>
+                <label><input type="radio" name="v_hospedagem" value="Chale"> 🏡 Chalé rústico, aconchegante e no meio da natureza</label>
+            </div>
+
+            <label>35. Para qual tipo de lugar você voltaria sem pensar?</label>
+            <div class="options">
+                <label><input type="radio" name="v_voltaria" value="Praia Perfeita"> 🌊 Aquela praia inesquecível de águas claras</label>
+                <label><input type="radio" name="v_voltaria" value="Cidade Charmosa"> 🏘️ Uma cidade histórica, charmosa e fria</label>
+                <label><input type="radio" name="v_voltaria" value="Paraiso Gastronomico"> 🍝 Um lugar onde a comida era simplesmente espetacular</label>
+                <label><input type="radio" name="v_voltaria" value="Refugio de Paz"> 🍃 Um refúgio onde sentimos paz e desconectamos do mundo</label>
+            </div>
+
+            <label>36. Se pudesse viajar amanhã, para onde iria?</label>
+            <div class="options">
+                <label><input type="radio" name="v_amanha" value="Litoral Proximo"> 🚗 Para o litoral mais próximo curtir o mar</label>
+                <label><input type="radio" name="v_amanha" value="Exterior"> ✈️ Para o exterior viver uma cultura diferente</label>
+                <label><input type="radio" name="v_amanha" value="Montanhas Frio"> ⛰️ Para as montanhas curtir o clima de serra</label>
+                <label><input type="radio" name="v_amanha" value="Parque Diversões"> 🎢 Para um parque de diversões ou resort temático</label>
+            </div>
+
+            <label>37. Qual seria a viagem perfeita para nós dois?</label>
+            <div class="options">
+                <label><input type="radio" name="v_perfeita" value="Romantica"> ❤️ Roteiro ultraromântico com jantares e passeios a dois</label>
+                <label><input type="radio" name="v_perfeita" value="Roadtrip"> 🛣️ Roadtrip de carro explorando várias cidades com nossa playlist</label>
+                <label><input type="radio" name="v_perfeita" value="All Inclusive"> 🍸 Resort All-Inclusive com sombra, água fresca e mordomia</label>
+                <label><input type="radio" name="v_perfeita" value="Mochilao"> 🗺️ Mochilão explorando trilhas, praias e aventuras na natureza</label>
+            </div>
+
+            <label>38. Você gosta de planejar ou improvisar?</label>
+            <div class="options">
+                <label><input type="radio" name="v_planejar" value="Planejar Tudo"> 📋 Planejar cada dia, horários, restaurantes e ingressos</label>
+                <label><input type="radio" name="v_planejar" value="Improvisar"> 🗺️ Ter só o destino de base e improvisar os passeios lá na hora</label>
+            </div>
+
+            <label>39. Prefere frio ou calor durante uma viagem?</label>
+            <div class="options">
+                <label><input type="radio" name="v_clima" value="Frio"> 🍷 Frio para usar casaco elegante, tomar chocolate quente ou vinho</label>
+                <label><input type="radio" name="v_clima" value="Calor"> ☀️ Calor para usar roupa leve, mergulhar na água e pegar sol</label>
+            </div>
+
+            <label>40. Você moraria em outro país?</label>
+            <div class="options">
+                <label><input type="radio" name="v_morar" value="Sim Com Certeza"> ✈️ Sim, com certeza! Amo a ideia de recomeçar fora</label>
+                <label><input type="radio" name="v_morar" value="Experiencia Temporaria"> ⏳ Talvez, por uma experiência de 1 ou 2 anos</label>
+                <label><input type="radio" name="v_morar" value="So Se Muito Planejado"> 📊 Só se fosse uma oportunidade incrível e muito segura</label>
+                <label><input type="radio" name="v_morar" value="Nao Amo Brasil"> 🇧🇷 Não, amo morar no Brasil perto da família e cultura</label>
+            </div>
+
+            <div class="btns">
+                <button type="button" class="btn-sec" onclick="go(3)">⬅ Voltar</button>
+                <button type="button" class="btn-main" onclick="go(5)">Próximo Tópico ➔</button>
+            </div>
+        </div>
+
+        <!-- ====================================================== -->
+        <!-- ETAPA 5: 🧠 PERSONALIDADE -->
+        <!-- ====================================================== -->
+        <div class="step" id="s5">
+            <h2>🧠 Personalidade</h2>
+            
+            <label>41. Você se considera mais racional ou emocional?</label>
+            <div class="options">
+                <label><input type="radio" name="p_razao_emocao" value="Racional"> 🧠 Mais Racional (análise, lógica e razão acima de tudo)</label>
+                <label><input type="radio" name="p_razao_emocao" value="Emocional"> ❤️ Mais Emocional (coração, intuição e sentimentos guiam)</label>
+                <label><input type="radio" name="p_razao_emocao" value="Equilíbrio Racional"> ⚖️ Equilibrado(a), mas pendo um pouco para a razão</label>
+                <label><input type="radio" name="p_razao_emocao" value="Equilíbrio Emocional"> 💭 Equilibrado(a), mas pendo um pouco para a emoção</label>
+            </div>
+
+            <label>42. Você prefere ficar em casa ou sair?</label>
+            <div class="options">
+                <label><input type="radio" name="p_casa_sair" value="Ficar em Casa"> 🏠 Caseiro(a) 100% (amo meu conforto e paz do lar)</label>
+                <label><input type="radio" name="p_casa_sair" value="Sair Sempre"> 🚗 Rua! (amo sair, passear, ver gente e novidades)</label>
+                <label><input type="radio" name="p_casa_sair" value="Depende da Vibe"> 🔄 Meio a meio: amo sair, mas preciso do meu tempo em casa</label>
+            </div>
+
+            <label>43. Você é mais tímido ou extrovertido?</label>
+            <div class="options">
+                <label><input type="radio" name="p_timido" value="Timido"> 🙈 Mais tímido(a), reservado(a) e observador(a)</label>
+                <label><input type="radio" name="p_timido" value="Extrovertido"> 🗣️ Extrovertido(a), comunicativo(a) e converso com todo mundo</label>
+                <label><input type="radio" name="p_timido" value="Depende do Grupo"> 🤝 Depende: sou tímido no início, mas me solto com intimidade</label>
+            </div>
+
+            <label>44. O que mais te irrita no dia a dia?</label>
+            <div class="options">
+                <label><input type="radio" name="p_irrita" value="Falta Pontualidade"> ⏰ Falta de pontualidade ou enrolação com compromissos</label>
+                <label><input type="radio" name="p_irrita" value="Mentira/Falsidade"> 🤥 Mentira, falsidade ou injustiça com as pessoas</label>
+                <label><input type="radio" name="p_irrita" value="Desorganizacao"> 🌀 Bagunça extrema, desorganização ou barulho excessivo</label>
+                <label><input type="radio" name="p_irrita" value="Falta Comunicacao"> 🤐 Falta de comunicação clara ou pessoas indiferentes</label>
+            </div>
+
+            <label>45. O que mais te faz feliz e realizado(a)?</label>
+            <div class="options">
+                <label><input type="radio" name="p_feliz" value="Conquistas"> 🏆 Conquistar metas de trabalho, estudos ou projetos pessoais</label>
+                <label><input type="radio" name="p_feliz" value="Momentos Simples"> ☕ Momentos de paz, amor e risadas com quem amo</label>
+                <label><input type="radio" name="p_feliz" value="Viajar/Experiencias"> 🌍 Viajar, conhecer lugares novos e ter experiências únicas</label>
+                <label><input type="radio" name="p_feliz" value="Dia Tranquilo"> 🧘‍♂️ Ter um dia tranquilo, sem estresse e com tempo livre para mim</label>
+            </div>
+
+            <label>46. Você costuma guardar mágoas?</label>
+            <div class="options">
+                <label><input type="radio" name="p_magoa" value="Nao Esqueço Rápido"> 🍃 Não, sou leve, perdoo fácil e deixo o passado para trás</label>
+                <label><input type="radio" name="p_magoa" value="Sim Dificil Esquecer"> 🛡️ Sim, quando me magoam fundo, demoro muito para esquecer</label>
+                <label><input type="radio" name="p_magoa" value="Depende da Pessoa"> ⚖️ Depende muito de quem errou e da gravidade da situação</label>
+            </div>
+
+            <label>47. Você perdoa facilmente?</label>
+            <div class="options">
+                <label><input type="radio" name="p_perdoa" value="Sim Facil"> 🕊️ Sim, não gosto de clima ruim e perdoo logo</label>
+                <label><input type="radio" name="p_perdoa" value="Demoro Processar"> ⏳ Demoro um tempo no meu canto para processar antes de perdoar</label>
+                <label><input type="radio" name="p_perdoa" value="Perdoo Nao Esqueço"> 🧠 Eu perdoo para seguir em frente, mas a confiança muda</label>
+            </div>
+
+            <label>48. Você gosta de conhecer pessoas novas?</label>
+            <div class="options">
+                <label><input type="radio" name="p_pessoas" value="Adoro"> 🎉 Adoro! Gasto energia social e faço amizades facilmente</label>
+                <label><input type="radio" name="p_pessoas" value="Seletivo"> 🧐 Sou seletivo(a): converso por educação, mas poucos viram amigos</label>
+                <label><input type="radio" name="p_pessoas" value="Prefiro Meu Grupo"> 🔒 Prefiro ficar no conforto do meu grupo de sempre</label>
+            </div>
+
+            <label>49. Em um grupo ou projeto, você prefere liderar ou seguir?</label>
+            <div class="options">
+                <label><input type="radio" name="p_liderar" value="Liderar"> 👑 Liderar, organizar, tomar as decisões e guiar o time</label>
+                <label><input type="radio" name="p_liderar" value="Seguir/Apoiar"> 🤝 Apoiar, executar minha parte muito bem e cooperar</label>
+                <label><input type="radio" name="p_liderar" value="Depende do Assunto"> 💡 Lidero se domino o assunto, senão prefiro apoiar</label>
+            </div>
+
+            <label>50. Como você mais demonstra carinho?</label>
+            <div class="options">
+                <label><input type="radio" name="p_carinho" value="Toque Fisico"> 🤗 Toque físico (abraços, beijos, cafuné e andar de mãos dadas)</label>
+                <label><input type="radio" name="p_carinho" value="Palavras Afirmacao"> 💬 Palavras de afirmação (elogios, mensagens de bom dia e "eu te amo")</label>
+                <label><input type="radio" name="p_carinho" value="Atos Servico"> 🛠️ Atos de serviço (ajudar no trabalho, cuidar quando está doente)</label>
+                <label><input type="radio" name="p_carinho" value="Tempo Qualidade"> ⏳ Tempo de qualidade (largar o celular e prestar atenção total)</label>
+            </div>
+
+            <div class="btns">
+                <button type="button" class="btn-sec" onclick="go(4)">⬅ Voltar</button>
+                <button type="button" class="btn-main" onclick="go(6)">Próximo Tópico ➔</button>
+            </div>
+        </div>
+
+        <!-- ====================================================== -->
+        <!-- ETAPA 6: ❤️ RELACIONAMENTO -->
+        <!-- ====================================================== -->
+        <div class="step" id="s6">
+            <h2>❤️ Relacionamento</h2>
+            
+            <label>51. Qual foi sua primeira impressão de mim?</label>
+            <div class="options">
+                <label><input type="radio" name="r_impressao" value="Atraente/Lindo"> 😍 Achei lindo(a), atraente e fiquei encantado(a) na hora</label>
+                <label><input type="radio" name="r_impressao" value="Simpatico/Engracado"> 😄 Achei super simpático(a), engraçado(a) e fácil de conversar</label>
+                <label><input type="radio" name="r_impressao" value="Misterioso/Timido"> 🕵️‍♂️ Achei um pouco tímido(a)/misterioso(a) e quis desvendar</label>
+                <label><input type="radio" name="r_impressao" value="Conexao Imediata"> ⚡ Senti uma conexão diferente e familiar logo de cara</label>
+            </div>
+
+            <label>52. Qual momento nosso você nunca esquece?</label>
+            <div class="options">
+                <label><input type="radio" name="r_momento" value="Primeiro Beijo/Encontro"> 💋 Nosso primeiro beijo / primeiro encontro oficial</label>
+                <label><input type="radio" name="r_momento" value="Viagem/Passeio"> ✈️ Uma viagem ou passeio especial que fizemos juntos</label>
+                <label><input type="radio" name="r_momento" value="Momento Engracado"> 😂 Uma crise de riso ou situação engraçada do nosso dia a dia</label>
+                <label><input type="radio" name="r_momento" value="Apoio Desafio"> 🤝 Um momento de dificuldade onde nos apoiamos incondicionalmente</label>
+            </div>
+
+            <label>53. O que você mais gosta em mim?</label>
+            <div class="options">
+                <label><input type="radio" name="r_gosta" value="Sorriso/Olhar"> ✨ Seu sorriso, seu olhar e sua beleza</label>
+                <label><input type="radio" name="r_gosta" value="Companheirismo"> 🛡️ Seu companheirismo, lealdade e cuidado comigo</label>
+                <label><input type="radio" name="r_gosta" value="Humor/Jeito"> 🤪 Seu bom humor, risada e jeito leve de ser</label>
+                <label><input type="radio" name="r_gosta" value="Inteligencia/Forca"> 🧠 Sua inteligência, determinação e vontade de vencer</label>
+            </div>
+
+            <label>54. O que faz você se sentir mais amado(a)?</label>
+            <div class="options">
+                <label><input type="radio" name="r_amado" value="Apoio/Ouvir"> 👂 Quando você me ouve com atenção, me apoia e me entende</label>
+                <label><input type="radio" name="r_amado" value="Surpresas/Cuidado"> 🎁 Surpresas inesperadas, elogios e carinho no meio do dia</label>
+                <label><input type="radio" name="r_amado" value="Carinho Fisico"> 🥰 Abraços apertados, cafuné e carinho físico</label>
+                <label><input type="radio" name="r_amado" value="Planos Futuro"> 🏡 Quando fazemos planos para o nosso futuro juntos</label>
+            </div>
+
+            <label>55. Qual é a nossa melhor lembrança?</label>
+            <div class="options">
+                <label><input type="radio" name="r_lembranca" value="Inicio Conquista"> 💌 O frio na barriga do começo e da fase de conquista</label>
+                <label><input type="radio" name="r_lembranca" value="Comemoracao"> 🎉 Uma comemoração especial (aniversário, conquista de algo)</label>
+                <label><input type="radio" name="r_lembranca" value="Viagem Inesquecivel"> 🌴 Uma viagem onde nos conectamos muito</label>
+                <label><input type="radio" name="r_lembranca" value="Paz do Lar"> 🛋️ Nossos fins de semana tranquilos, assistindo algo e comendo bem</label>
+            </div>
+
+            <label>56. O que você mais admira em mim?</label>
+            <div class="options">
+                <label><input type="radio" name="r_admira" value="Forca Sonhos"> 🚀 A garra e força para lutar pelos seus objetivos e projetos</label>
+                <label><input type="radio" name="r_admira" value="Bondade/Empatia"> ❤️ O coração gigante, a bondade e a forma como trata as pessoas</label>
+                <label><input type="radio" name="r_admira" value="Inteligencia/Talento"> 💡 Sua inteligência, criatividade e capacidade de resolver problemas</label>
+                <label><input type="radio" name="r_admira" value="Paciencia/Parceria"> 🤝 A paciência, maturidade e parceria incrível no nosso namoro</label>
+            </div>
+
+            <label>57. Como seria um encontro perfeito para nós?</label>
+            <div class="options">
+                <label><input type="radio" name="r_encontro" value="Jantar Romantico"> 🍷 Jantar romântico em um restaurante lindo e reservado</label>
+                <label><input type="radio" name="r_encontro" value="Noite em Casa"> 🍕 Noite em casa com pizza, vinho, filme e muitas risadas</label>
+                <label><input type="radio" name="r_encontro" value="Passeio Natureza"> 🌄 Piquenique ou passeio ao ar livre (praia, parque ou serra)</label>
+                <label><input type="radio" name="r_encontro" value="Passeio Surpresa"> 🗺️ Um passeio surpresa, aventureiro e diferente de tudo</label>
+            </div>
+
+            <label>58. O que faz você confiar 100% em alguém?</label>
+            <div class="options">
+                <label><input type="radio" name="r_confiar" value="Transparencia"> 🔍 Transparência total, sinceridade e não esconder nada</label>
+                <label><input type="radio" name="r_confiar" value="Lealdade Dificuldade"> 🛡️ Estar ao meu lado me apoiando nos piores momentos da vida</label>
+                <label><input type="radio" name="r_confiar" value="Coerencia Atitudes"> 📐 Coerência: fazer exatamente aquilo que fala e promete</label>
+                <label><input type="radio" name="r_confiar" value="Convivencia"> ⏳ O tempo, a convivência diária e a consistência das atitudes</label>
+            </div>
+
+            <label>59. Qual foi o momento em que percebeu que gostava de mim?</label>
+            <div class="options">
+                <label><input type="radio" name="r_percebeu" value="Primeira Conversa"> 💬 Logo nas primeiras conversas, quando vi nossa química</label>
+                <label><input type="radio" name="r_percebeu" value="Primeiro Encontro"> 🥰 Depois de nos vermos e sentirmos a energia ao vivo</label>
+                <label><input type="radio" name="r_percebeu" value="Saudade Longe"> 💔 Quando fiquei longe e senti muita falta da sua presença</label>
+                <label><input type="radio" name="r_percebeu" value="Aos Poucos"> 🌿 Foi crescendo aos poucos, conforme fui conhecendo seu coração</label>
+            </div>
+
+            <label>60. O que você mais valoriza no nosso relacionamento?</label>
+            <div class="options">
+                <label><input type="radio" name="r_valoriza" value="Parceria/Cumplicidade"> 🤝 A parceria, cumplicidade e saber que somos um time</label>
+                <label><input type="radio" name="r_valoriza" value="Respeito/Confianca"> 🔒 O respeito mútuo, a confiança e a paz que sentimos</label>
+                <label><input type="radio" name="r_valoriza" value="Humor/Leveza"> 😄 O bom humor, as brincadeiras e a leveza de estarmos juntos</label>
+                <label><input type="radio" name="r_valoriza" value="Amor/Paixao"> ❤️ O amor profundo, a paixão e o carinho que nunca acabam</label>
+            </div>
+
+            <div class="btns">
+                <button type="button" class="btn-sec" onclick="go(5)">⬅ Voltar</button>
+                <button type="button" class="btn-main" onclick="go(7)">Próximo Tópico ➔</button>
+            </div>
+        </div>
+
+        <!-- ====================================================== -->
+        <!-- ETAPA 7: 😂 PERGUNTAS DIVERTIDAS -->
+        <!-- ====================================================== -->
+        <div class="step" id="s7">
+            <h2>😂 Perguntas Divertidas</h2>
+            
+            <label>61. Se você fosse um animal, qual seria?</label>
+            <div class="options">
+                <label><input type="radio" name="d_animal" value="Leão/Felino"> 🦁 Leão ou Felino (independente, confiante e protetor)</label>
+                <label><input type="radio" name="d_animal" value="Cachorro"> 🐶 Cachorro (animado, leal e amigo de todo mundo)</label>
+                <label><input type="radio" name="d_animal" value="Aguia"> 🦅 Águia (livre, observador e com visão de longo alcance)</label>
+                <label><input type="radio" name="d_animal" value="Urso/Panda"> 🐻 Urso ou Panda (ama comer, dormir e ficar no seu canto)</label>
+            </div>
+
+            <label>62. Qual superpoder você escolheria?</label>
+            <div class="options">
+                <label><input type="radio" name="d_superpoder" value="Teletransporte"> ⚡ Teletransporte instantâneo (nunca mais pegar trânsito/avião)</label>
+                <label><input type="radio" name="d_superpoder" value="Voar"> 🦅 Voar pelos céus livremente</label>
+                <label><input type="radio" name="d_superpoder" value="Ler Pensamentos"> 🧠 Ler pensamentos (saber tudo o que se passa na cabeça alheia)</label>
+                <label><input type="radio" name="d_superpoder" value="Invisibilidade"> 👻 Invisibilidade (entrar em qualquer lugar sem ser visto)</label>
+            </div>
+
+            <label>63. Se ganhasse R$ 1 milhão hoje, qual seria a primeira compra?</label>
+            <div class="options">
+                <label><input type="radio" name="d_milhao" value="Casa/Mansao"> 🏡 Uma casa ou apartamento dos sonhos</label>
+                <label><input type="radio" name="d_milhao" value="Viagem Mundo"> ✈️ Uma passagem de volta ao mundo com tudo pago</label>
+                <label><input type="radio" name="d_milhao" value="Carro Sonhos"> 🏎️ O carro ou moto que sempre sonhei</label>
+                <label><input type="radio" name="d_milhao" value="Investir Tudo"> 📈 Investiria a maior parte para viver de renda depois</label>
+            </div>
+
+            <label>64. Você sobreviveria a um apocalipse zumbi?</label>
+            <div class="options">
+                <label><input type="radio" name="d_zumbi" value="Lider Grupo"> ⚔️ Sim! Viraria o líder estrategista do grupo de sobreviventes</label>
+                <label><input type="radio" name="d_zumbi" value="Escondido"> 🛡️ Sim, mas me esconderia em um bunker cheio de comida</label>
+                <label><input type="radio" name="d_zumbi" value="Primeiro Mordido"> 🧟‍♂️ Não, acho que seria um dos primeiros a tropeçar e ser mordido 😂</label>
+                <label><input type="radio" name="d_zumbi" value="Lutaria Fim"> 🏹 Lutaria bravamente, mas dependeria muito da sorte</label>
+            </div>
+
+            <label>65. Se pudesse jantar com qualquer pessoa da história, quem seria?</label>
+            <div class="options">
+                <label><input type="radio" name="d_jantar" value="Idolo Musica/Cinema"> 🎸 Um grande ídolo da música, arte ou cinema</label>
+                <label><input type="radio" name="d_jantar" value="Cientista/Pensador"> 🔭 Um cientista ou pensador genial (Einstein, Da Vinci, etc.)</label>
+                <label><input type="radio" name="d_jantar" value="Empresario/Visionario"> 💼 Um empresário visionário do mundo da tecnologia/negócios</label>
+                <label><input type="radio" name="d_jantar" value="Jesus"> 📖 Com Jesus ou alguém da bíblia</label>
+                <label><input type="radio" name="d_jantar" value="Eu do Futuro"> ⏳ Com meu próprio "Eu do Futuro" para pegar conselhos</label>
+            </div>
+
+            <label>66. Qual famoso você gostaria muito de conhecer?</label>
+            <div class="options">
+                <label><input type="radio" name="d_famoso" value="Ator Hollywood"> 🎬 Um ator ou atriz famoso(a)</label>
+                <label><input type="radio" name="d_famoso" value="Cantor Internacional"> 🎤 Meu cantor(a) ou banda internacional favorita</label>
+                <label><input type="radio" name="d_famoso" value="Comediante"> 😂 Um comediante ou apresentador genial para rir junto</label>
+                <label><input type="radio" name="d_famoso" value="Atleta Lenda"> 🏆 Um atleta lenda do futebol ou esportes</label>
+            </div>
+
+            <label>67. Se pudesse voltar no tempo, para qual época iria?</label>
+            <div class="options">
+                <label><input type="radio" name="d_tempo" value="Anos 80/90"> 📼 Anos 80 e 90 (para viver a era de ouro da música e sem internet)</label>
+                <label><input type="radio" name="d_tempo" value="Castelos/Reis"> 🏰 Época medieval dos castelos, reis e grandes batalhas</label>
+                <label><input type="radio" name="d_tempo" value="Futuro Distante"> 🚀 Ir para o futuro distante ver como estará a tecnologia</label>
+                <label><input type="radio" name="d_tempo" value="Amo Presente"> 🛑 Não viajaria no tempo, amo viver exatamente o nosso presente</label>
+            </div>
+
+            <label>68. Qual profissão teria se dinheiro não importasse de jeito nenhum?</label>
+            <div class="options">
+                <label><input type="radio" name="d_profissao" value="Avaliador Resorts"> 🍹 Avaliador de resorts, praias e hotéis pelo mundo</label>
+                <label><input type="radio" name="d_profissao" value="Musico/Artista"> 🎸 Músico, escritor ou artista vivendo da criatividade</label>
+                <label><input type="radio" name="d_profissao" value="Cuidador Animais"> 🐾 Cuidador de animais em um santuário ecológico</label>
+                <label><input type="radio" name="d_profissao" value="Chef Cozinha"> 🍝 Chef de cozinha ou crítico gastronômico</label>
+            </div>
+
+            <label>69. Se você fosse um personagem de filme, quem seria?</label>
+            <div class="options">
+                <label><input type="radio" name="d_personagem" value="Heroi"> 🦸‍♂️ O herói corajoso que enfrenta tudo para salvar o dia</label>
+                <label><input type="radio" name="d_personagem" value="Alivio Comico"> 🤡 O melhor amigo engraçado que tem as melhores piadas</label>
+                <label><input type="radio" name="d_personagem" value="Mentor Sabio"> 🧙‍♂️ O mentor sábio, calmo e genial que tem plano pra tudo</label>
+                <label><input type="radio" name="d_personagem" value="Vilao Charmoso"> 🦹‍♂️ O vilão charmoso, elegante e incompreendido</label>
+            </div>
+
+            <label>70. Qual habilidade você gostaria de aprender instantaneamente como num chip?</label>
+            <div class="options">
+                <label><input type="radio" name="d_habilidade" value="Todas Linguas"> 🗣️ Falar fluentemente todas as línguas do mundo</label>
+                <label><input type="radio" name="d_habilidade" value="Qualquer Instrumento"> 🎹 Tocar perfeitamente qualquer instrumento musical</label>
+                <label><input type="radio" name="d_habilidade" value="Programar/Hackear"> 💻 Programar, desenvolver ou hackear qualquer sistema do zero</label>
+                <label><input type="radio" name="d_habilidade" value="Pilotar Tudo"> ✈️ Pilotar aviões, helicópteros e carros de corrida</label>
+            </div>
+
+            <div class="btns">
+                <button type="button" class="btn-sec" onclick="go(6)">⬅ Voltar</button>
+                <button type="button" class="btn-main" onclick="go(8)">Próximo Tópico ➔</button>
+            </div>
+        </div>
+
+        <!-- ====================================================== -->
+        <!-- ETAPA 8: 🌟 VALORES -->
+        <!-- ====================================================== -->
+        <div class="step" id="s8">
+            <h2>🌟 Valores</h2>
+            
+            <label>71. O que é o verdadeiro sucesso para você?</label>
+            <div class="options">
+                <label><input type="radio" name="vl_sucesso" value="Paz/Estabilidade"> 🧘‍♂️ Ter paz de espírito, saúde mental e estabilidade na vida</label>
+                <label><input type="radio" name="vl_sucesso" value="Carreira/Reconhecimento"> 💼 Alcançar o topo na profissão e ser reconhecido pelo meu trabalho</label>
+                <label><input type="radio" name="vl_sucesso" value="Familia Unida"> 🏡 Construir um lar harmonioso, com conforto e uma família feliz</label>
+                <label><input type="radio" name="vl_sucesso" value="Liberdade Financeira"> 🕊️ Liberdade financeira para fazer o que quiser, na hora que quiser</label>
+            </div>
+
+            <label>72. O que você mais valoriza em uma amizade?</label>
+            <div class="options">
+                <label><input type="radio" name="vl_amizade" value="Lealdade"> 🛡️ Lealdade verdadeira: estar junto nos piores e melhores momentos</label>
+                <label><input type="radio" name="vl_amizade" value="Sinceridade"> 🗣️ Sinceridade sem rodeios: falar a verdade na cara com respeito</label>
+                <label><input type="radio" name="vl_amizade" value="Conexao/Humor"> 😂 Sintonia e bom humor: rir das mesmas coisas e leveza</label>
+                <label><input type="radio" name="vl_amizade" value="Sem Cobranca"> ⏳ Não precisar se falar todo dia e, quando se ver, a conexão ser igual</label>
+            </div>
+
+            <label>73. Família ou carreira: qual pesa mais na sua balança?</label>
+            <div class="options">
+                <label><input type="radio" name="vl_fam_carreira" value="Familia Primeiro"> ❤️ Família sempre em primeiro lugar (o trabalho serve à família)</label>
+                <label><input type="radio" name="vl_fam_carreira" value="Carreira Foco"> 💼 Carreira e estudos são meu foco principal neste momento</label>
+                <label><input type="radio" name="vl_fam_carreira" value="Equilíbrio"> ⚖️ Busco o equilíbrio 50/50: um complementa o sucesso do outro</label>
+            </div>
+
+            <label>74. Qual qualidade é absolutamente indispensável em uma pessoa?</label>
+            <div class="options">
+                <label><input type="radio" name="vl_qualidade" value="Honestidade/Carater"> 💎 Honestidade e caráter impecável</label>
+                <label><input type="radio" name="vl_qualidade" value="Empatia/Gentileza"> ❤️ Empatia, respeito e gentileza com os outros</label>
+                <label><input type="radio" name="vl_qualidade" value="Humildade"> 🌿 Humildade e capacidade de reconhecer erros</label>
+                <label><input type="radio" name="vl_qualidade" value="Inteligencia/Esforço"> 🧠 Inteligência, dedicação e vontade de crescer</label>
+            </div>
+
+            <label>75. O que significa felicidade verdadeira para você?</label>
+            <div class="options">
+                <label><input type="radio" name="vl_felicidade" value="Paz Com Quem Amo"> 🥰 Desfrutar de paz e amor ao lado das pessoas que escolhi</label>
+                <label><input type="radio" name="vl_felicidade" value="Realizar Sonhos"> 🚀 Realizar meus maiores sonhos e objetivos de vida</label>
+                <label><input type="radio" name="vl_felicidade" value="Saude/Liberdade"> ☀️ Ter saúde física e liberdade para viver sem amarras</label>
+                <label><input type="radio" name="vl_felicidade" value="Gratidao Diaria"> ☕ Saber apreciar as pequenas coisas e ter gratidão diária</label>
+            </div>
+
+            <label>76. O que mais te inspira a levantar e lutar todos os dias?</label>
+            <div class="options">
+                <label><input type="radio" name="vl_inspira" value="Superacao"> 🧗‍♂️ Histórias de superação e pessoas que venceram grandes desafios</label>
+                <label><input type="radio" name="vl_inspira" value="Arte/Musica/Criatividade"> 🎨 A criatividade, a arte, a música e a inovação</label>
+                <label><input type="radio" name="vl_inspira" value="Amor Familia/Casal"> ❤️ O amor pela minha família e a vida que estamos construindo</label>
+                <label><input type="radio" name="vl_inspira" value="Legado"> 🏛️ O desejo de evoluir e deixar minha marca positiva no mundo</label>
+            </div>
+
+            <label>77. Você acredita em destino?</label>
+            <div class="options">
+                <label><input type="radio" name="vl_destino" value="Sim Destino"> ✨ Sim, acredito que tudo acontece por uma razão que já estava escrita</label>
+                <label><input type="radio" name="vl_destino" value="Nao Escolhas"> 🛠️ Não, nós mesmos criamos nosso destino com nossas escolhas diárias</label>
+                <label><input type="radio" name="vl_destino" value="Misto"> 🔀 Em partes: o universo dá as cartas, mas nós decidimos como jogar</label>
+            </div>
+
+            <label>78. O que mais te dá orgulho na sua vida até hoje?</label>
+            <div class="options">
+                <label><input type="radio" name="vl_orgulho" value="Superacao Pessoal"> 💪 Minha força de vontade e os obstáculos que superei sozinho(a)</label>
+                <label><input type="radio" name="vl_orgulho" value="Estudos/Trabalho"> 📚 Meu crescimento profissional, meus estudos e meus projetos</label>
+                <label><input type="radio" name="vl_orgulho" value="Valores/Carater"> 🛡️ Meus valores intactos e a boa pessoa que me tornei</label>
+                <label><input type="radio" name="vl_orgulho" value="Nosso Relacionamento"> ❤️ Nosso relacionamento e o amor saudável que construímos</label>
+            </div>
+
+            <label>79. Qual é o seu maior medo na vida?</label>
+            <div class="options">
+                <label><input type="radio" name="vl_medo" value="Perder Pessoas"> 💔 Perder as pessoas que mais amo no mundo</label>
+                <label><input type="radio" name="vl_medo" value="Nao Realizar Sonhos"> 😞 Olhar para trás e sentir que não realizei meus verdadeiros sonhos</label>
+                <label><input type="radio" name="vl_medo" value="Falta Saude"> 🏥 Doenças ou perder minha independência e saúde</label>
+                <label><input type="radio" name="vl_medo" value="Estagnacao"> 🔒 Ficar estagnado sem crescer, aprender ou evoluir</label>
+            </div>
+
+            <label>80. O que você nunca faria, nem por todo o dinheiro do mundo?</label>
+            <div class="options">
+                <label><input type="radio" name="vl_dinheiro" value="Ferir Principios"> 🛑 Passar por cima da minha ética, dignidade e princípios</label>
+                <label><input type="radio" name="vl_dinheiro" value="Prejudicar Alguem"> 🔪 Prejudicar deliberadamente ou trair alguém que confia em mim</label>
+                <label><input type="radio" name="vl_dinheiro" value="Abrir Mao Liberdade"> 🕊️ Abrir mão da minha liberdade ou da minha paz mental</label>
+                <label><input type="radio" name="vl_dinheiro" value="Desistir Amor"> ❤️ Desistir de quem amo por interesse financeiro</label>
+            </div>
+
+            <div class="btns">
+                <button type="button" class="btn-sec" onclick="go(7)">⬅ Voltar</button>
+                <button type="button" class="btn-main" onclick="go(9)">Próximo Tópico ➔</button>
+            </div>
+        </div>
+
+        <!-- ====================================================== -->
+        <!-- ETAPA 9: 🎲 CONHECENDO MELHOR -->
+        <!-- ====================================================== -->
+        <div class="step" id="s9">
+            <h2>🎲 Conhecendo Melhor</h2>
+            
+            <label>81. Qual hábito diário você mais gostaria de mudar?</label>
+            <div class="options">
+                <label><input type="radio" name="c_habito" value="Menos Celular"> 📱 Passar menos tempo rolando telas no celular / redes sociais</label>
+                <label><input type="radio" name="c_habito" value="Dormir Cedo"> 🌙 Dormir mais cedo para ter mais disposição e regular o sono</label>
+                <label><input type="radio" name="c_habito" value="Mais Organizacao"> 📅 Ser mais organizado(a) com horários e rotinas do dia a dia</label>
+                <label><input type="radio" name="c_habito" value="Mais Exercicios"> 🏋️‍♂️ Praticar exercícios físicos e beber água com mais frequência</label>
+            </div>
+
+            <label>82. Em uma escala realista, você se considera organizado(a)?</label>
+            <div class="options">
+                <label><input type="radio" name="c_organizado" value="Muito Organizado"> 📁 Muito! Amo tudo no seu devido lugar, limpo e planejado</label>
+                <label><input type="radio" name="c_organizado" value="Caos Organizado"> 🌀 Tenho meu "caos organizado": parece bagunça, mas eu acho tudo</label>
+                <label><input type="radio" name="c_organizado" value="Tento Ser"> 😅 Eu tento muito ser, mas a rotina às vezes me vence</label>
+                <label><input type="radio" name="c_organizado" value="Improviso Total"> 🎲 Nada organizado, sou da paz e vou vivendo no improviso</label>
+            </div>
+
+            <label>83. Como você mais gosta de passar um domingo?</label>
+            <div class="options">
+                <label><input type="radio" name="c_domingo" value="Sofa e Delivery"> 🛋️ Acordar tarde, pedir delivery, ver filmes e não fazer nada</label>
+                <label><input type="radio" name="c_domingo" value="Almoço Familia"> 🍝 Almoço especial em família ou com quem amo, com muita risada</label>
+                <label><input type="radio" name="c_domingo" value="Passeio Ar Livre"> 🌳 Passeio ao ar livre, praia, parque ou bater perna em lugar novo</label>
+                <label><input type="radio" name="c_domingo" value="Focar Projetos"> 💻 Aproveitar o silêncio para adiantar meus projetos ou hobbies</label>
+            </div>
+
+            <label>84. Qual você diria que é o seu maior talento natural?</label>
+            <div class="options">
+                <label><input type="radio" name="c_talento" value="Criatividade/Solucoes"> 💡 Criatividade, raciocínio lógico e facilidade para resolver problemas</label>
+                <label><input type="radio" name="c_talento" value="Humor/Empatia"> 😄 Facilidade em se conectar, ouvir e fazer as pessoas se sentirem bem</label>
+                <label><input type="radio" name="c_talento" value="Culinaria/Artes"> 🍳 Talentos manuais (cozinhar maravilhosamente, design ou música)</label>
+                <label><input type="radio" name="c_talento" value="Aprender Rapido"> 🧠 Aprender coisas novas e complexas com muita facilidade</label>
+            </div>
+
+            <label>85. O que faz você perder a paciência em segundos?</label>
+            <div class="options">
+                <label><input type="radio" name="c_paciencia" value="Lentidao/Enrolacao"> 🐢 Lentidão extrema ou enrolação para resolver coisas simples</label>
+                <label><input type="radio" name="c_paciencia" value="Injustica/Arrogancia"> 😤 Pessoas arrogantes, mal-educadas ou injustas com os outros</label>
+                <label><input type="radio" name="c_paciencia" value="Transito/Filas"> 🚗 Trânsito parado, filas gigantes ou barulho repetitivo</label>
+                <label><input type="radio" name="c_paciencia" value="Ser Interrompido"> 🛑 Ser interrompido ou cobrado quando estou muito focado no trabalho</label>
+            </div>
+
+            <label>86. Você prefere ganhar presentes materiais ou momentos?</label>
+            <div class="options">
+                <label><input type="radio" name="c_presentes" value="Momentos/Experiencias"> 🌴 Momentos! Uma viagem, um jantar ou um passeio inesquecível</label>
+                <label><input type="radio" name="c_presentes" value="Presentes Pensados"> 🎁 Presentes físicos que mostrem que a pessoa me conhece e prestou atenção</label>
+                <label><input type="radio" name="c_presentes" value="Equilibrio Perfeito"> ❤️ Um equilíbrio dos dois: amo surpresas de todos os tipos</label>
+            </div>
+
+            <label>87. O que é mais eficaz para recarregar suas energias depois de um dia pesado?</label>
+            <div class="options">
+                <label><input type="radio" name="c_energias" value="Silencio Sozinho"> 🤫 Ficar em total silêncio e sozinho(a) no meu canto por uma hora</label>
+                <label><input type="radio" name="c_energias" value="Abraco/Carinho"> 🤗 Um abraço longo, carinho e conversar com quem amo</label>
+                <label><input type="radio" name="c_energias" value="Sono Reparador"> 😴 Um banho relaxante e um sono longo e profundo</label>
+                <label><input type="radio" name="c_energias" value="Musica/Serie"> 🎧 Ouvir minhas músicas favoritas ou maratonar uma série leve</label>
+            </div>
+
+            <label>88. Você se considera uma pessoa competitiva?</label>
+            <div class="options">
+                <label><input type="radio" name="c_competitivo" value="Muito Competitivo"> 🏆 Muito! Quero ganhar até em jogo de cartas ou videogame por diversão</label>
+                <label><input type="radio" name="c_competitivo" value="Competitivo Saudavel"> ⚖️ Sou competitivo de forma saudável: gosto do desafio, mas sei perder</label>
+                <label><input type="radio" name="c_competitivo" value="Zero Competitivo"> 🕊️ Zero! Jogo só para me divertir e dar risada, o placar não me importa</label>
+            </div>
+
+            <label>89. Qual é o seu maior sonho atualmente?</label>
+            <div class="options">
+                <label><input type="radio" name="c_sonho" value="Independencia/Liberdade"> 🕊️ Conquistar total independência financeira, estabilidade e liberdade</label>
+                <label><input type="radio" name="c_sonho" value="Viajar Mundo"> ✈️ Conhecer vários países e culturas pelo mundo ao seu lado</label>
+                <label><input type="radio" name="c_sonho" value="Construir Nossa Casa"> 🏡 Construir nossa casa própria do nosso jeito e nossa família</label>
+                <label><input type="radio" name="c_sonho" value="Sucesso Profissional"> 🚀 Criar projetos de sucesso que me deem muito orgulho profissional</label>
+            </div>
+
+            <label>90. Qual lembrança da sua infância você traz com mais carinho?</label>
+            <div class="options">
+                <label><input type="radio" name="c_infancia" value="Brincadeiras/Amigos"> ⚽ As brincadeiras com amigos, rua, bicicleta e sem preocupações</label>
+                <label><input type="radio" name="c_infancia" value="Ferias em Familia"> 🚗 As viagens ou férias escolares em família</label>
+                <label><input type="radio" name="c_infancia" value="Natal/Datas Festivas"> 🎄 A magia das datas festivas (Natal, almoços de domingo na avó)</label>
+                <label><input type="radio" name="c_infancia" value="Desenhos/Jogos"> 🎮 As tardes inteiras jogando videogame ou vendo desenhos na TV</label>
+            </div>
+
+            <div class="btns">
+                <button type="button" class="btn-sec" onclick="go(8)">⬅ Voltar</button>
+                <button type="button" class="btn-main" onclick="go(10)">Próximo Tópico ➔</button>
+            </div>
+        </div>
+
+        <!-- ====================================================== -->
+        <!-- ETAPA 10: 🔥 PERGUNTAS MAIS PROFUNDAS -->
+        <!-- ====================================================== -->
+        <div class="step" id="s10">
+            <h2>🔥 Perguntas Profundas</h2>
+            
+            <label>91. Qual foi a maior lição que a vida já te ensinou?</label>
+            <div class="options">
+                <label><input type="radio" name="pr_licao" value="Aproveitar o Hoje"> ⏳ Nada é para sempre: aproveite o presente e valorize quem está perto hoje</label>
+                <label><input type="radio" name="pr_licao" value="Responsavel Pela Paz"> 🛡️ Você é o único responsável pela sua própria paz, felicidade e escolhas</label>
+                <label><input type="radio" name="pr_licao" value="Gentileza e Resiliencia"> 🌿 Resiliência: tudo passa, e a gentileza e paciência resolvem quase tudo</label>
+                <label><input type="radio" name="pr_licao" value="Amor Requer Cultivo"> ❤️ O amor verdadeiro não é apenas sorte, é uma escolha e cultivo diário</label>
+            </div>
+
+            <label>92. O que você tem mais medo de perder na vida?</label>
+            <div class="options">
+                <label><input type="radio" name="pr_perder" value="Nossa Conexao"> ❤️ A conexão, a parceria e o amor que existe entre nós dois</label>
+                <label><input type="radio" name="pr_perder" value="Saude Familia"> 👨‍👩‍👧 A saúde e a presença das pessoas da minha família e de quem amo</label>
+                <label><input type="radio" name="pr_perder" value="Paz Mental/Estabilidade"> 🧠 Minha paz mental, minha sanidade e a estabilidade que conquistei</label>
+                <label><input type="radio" name="pr_perder" value="Capacidade Sonhar"> ✨ Minha liberdade, vontade de viver e capacidade de sonhar</label>
+            </div>
+
+            <label>93. Qual você considera a decisão mais importante que já tomou?</label>
+            <div class="options">
+                <label><input type="radio" name="pr_decisao" value="Abrir Coracao Para Voce"> ❤️ Ter aberto meu coração e escolhido estar com você</label>
+                <label><input type="radio" name="pr_decisao" value="Caminho Profissional"> 💻 A escolha dos meus estudos, profissão e projetos que sigo</label>
+                <label><input type="radio" name="pr_decisao" value="Mudanca de Habito"> 🌱 Uma mudança interna de comportamento, maturidade e amor-próprio</label>
+                <label><input type="radio" name="pr_decisao" value="Independencia"> 🦅 Decisões que me trouxeram mais autonomia e independência</label>
+            </div>
+
+            <label>94. O que faz você se sentir realmente compreendido(a) de alma?</label>
+            <div class="options">
+                <label><input type="radio" name="pr_compreendido" value="Ouvir Sem Julgar"> 👂 Quando você me ouve com atenção, me acolhe e não me julga</label>
+                <label><input type="radio" name="pr_compreendido" value="Perceber Sem Falar"> 👀 Quando você percebe exatamente o que estou sentindo só pelo meu olhar</label>
+                <label><input type="radio" name="pr_compreendido" value="Compartilhar Valores"> 🤝 Quando vejo que compartilhamos os mesmos valores e visão de futuro</label>
+                <label><input type="radio" name="pr_compreendido" value="Sintonia no Humor"> 😂 Quando nossa sintonia é tanta que rimos das mesmas bobagens</label>
+            </div>
+
+            <label>95. Como você imagina nosso futuro exatamente daqui a 10 anos?</label>
+            <div class="options">
+                <label><input type="radio" name="pr_futuro" value="Estaveis Nossa Casa"> 🏡 Nós dois morando no nosso lar dos sonhos, com muita estabilidade e amor</label>
+                <label><input type="radio" name="pr_futuro" value="Familia Consolida"> 👨‍👩‍👧 Com uma família linda consolidada, saudável e unida</label>
+                <label><input type="radio" name="pr_futuro" value="Viajando o Mundo"> ✈️ Viajando muito pelo mundo, conhecendo lugares novos e aproveitando</label>
+                <label><input type="radio" name="pr_futuro" value="Auge Profissional"> 🚀 No auge das nossas carreiras e com liberdade financeira conquistada</label>
+            </div>
+
+            <label>96. O que significa amar alguém de verdade para você?</label>
+            <div class="options">
+                <label><input type="radio" name="pr_amar" value="Escolher Todos os Dias"> 💍 Escolher a mesma pessoa todos os dias, na calmaria e nas tempestades</label>
+                <label><input type="radio" name="pr_amar" value="Ver o Outro Crescer"> 🦅 Querer ver o outro voar alto, apoiar seus sonhos e crescer junto</label>
+                <label><input type="radio" name="pr_amar" value="Porto Seguro"> 🛡️ Ser o porto seguro, o refúgio onde o outro encontra paz e carinho</label>
+                <label><input type="radio" name="pr_amar" value="Conexao de Alma"> ✨ Uma conexão profunda de alma, respeito, admiração e lealdade</label>
+            </div>
+
+            <label>97. Qual momento ou fase você sente que transformou quem você é hoje?</label>
+            <div class="options">
+                <label><input type="radio" name="pr_mudou" value="Quando Nos Conhecemos"> 🥰 O momento em que nossos caminhos se cruzaram e começamos nossa história</label>
+                <label><input type="radio" name="pr_mudou" value="Superacao de Dificuldade"> 🧗‍♂️ A superação de uma fase difícil no passado que me deu muita resiliência</label>
+                <label><input type="radio" name="pr_mudou" value="Conquista Estudos/Trabalho"> 🎓 Uma conquista acadêmica/profissional que me provou do que sou capaz</label>
+                <label><input type="radio" name="pr_mudou" value="Amadurecimento Interno"> 🌿 Um processo gradual de amadurecimento interno e autoconhecimento</label>
+            </div>
+
+            <label>98. O que você gostaria que mais pessoas soubessem ou percebessem sobre você?</label>
+            <div class="options">
+                <label><input type="radio" name="pr_soubessem" value="Coracao Sensivel"> ❤️ Que por trás de qualquer pose ou seriedade, tenho um coração super sensível</label>
+                <label><input type="radio" name="pr_soubessem" value="Esforco em Silencio"> 🛠️ O quanto me esforço em silêncio para ver as pessoas ao meu redor bem</label>
+                <label><input type="radio" name="pr_soubessem" value="Lealdade Absoluta"> 🛡️ Minha lealdade absoluta e como sou capaz de mover montanhas por quem amo</label>
+                <label><input type="radio" name="pr_soubessem" value="Meus Sonhos e Garra"> 🚀 Meus sonhos, minha garra e o quanto desejo evoluir constantemente</label>
+            </div>
+
+            <label>99. Qual você acredita ser a maior demonstração de amor que existe?</label>
+            <div class="options">
+                <label><input type="radio" name="pr_demonstracao" value="Apoio nos Piores Momentos"> 🛡️ Permanecer ao lado e segurar a mão nos momentos mais escuros e difíceis</label>
+                <label><input type="radio" name="pr_demonstracao" value="Cuidado Diario"> ☕ Pequenos gestos diários de carinho, respeito, escuta e atenção</label>
+                <label><input type="radio" name="pr_demonstracao" value="Apoio Aos Sonhos"> 🚀 O apoio incondicional para que o outro alcance seu maior potencial</label>
+                <label><input type="radio" name="pr_demonstracao" value="Lealdade e Sinceridade"> 💎 A lealdade inabalável e a sinceridade com gentileza</label>
+            </div>
+
+            <label>100. O que você mais espera construir ao lado da pessoa que ama?</label>
+            <div class="options">
+                <label><input type="radio" name="pr_construir" value="Lar Cheio de Paz"> 🏡 Um lar cheio de paz, cumplicidade, amor e risadas diárias</label>
+                <label><input type="radio" name="pr_construir" value="Vida de Aventuras"> ✈️ Uma vida repleta de aventuras, viagens, memórias e conquistas juntos</label>
+                <label><input type="radio" name="pr_construir" value="Parceria Imbativel"> 🛡️ Uma parceria imbatível, onde um é o escudo e o impulso do outro</label>
+                <label><input type="radio" name="pr_construir" value="Historia Para Sempre"> ❤️ Uma história linda, sólida e inspiradora que dure para sempre</label>
+            </div>
+
+            <div class="btns">
+                <button type="button" class="btn-sec" onclick="go(9)">⬅ Voltar</button>
+                <button type="button" class="btn-main" onclick="go(11)">Concluir Quiz ➔</button>
+            </div>
+        </div>
+
+        <!-- ====================================================== -->
+        <!-- ETAPA 11: FINALIZAÇÃO -->
+        <!-- ====================================================== -->
+        <div class="step" id="s11">
+            <h2>🎉 Você Chegou ao Fim!</h2>
+            <p class="subtitle">Obrigado por dedicar seu tempo e carinho para responder a essas 100 perguntas sobre nós. Clique abaixo para me enviar suas respostas!</p>
+            <div class="btns">
+                <button type="button" class="btn-sec" onclick="go(10)">⬅ Revisar</button>
+                <button type="submit" class="btn-main btn-submit">💌 Enviar Todas as Respostas</button>
+            </div>
+        </div>
+
+    </form>
+</div>
+
+<!-- Importação da biblioteca oficial do EmailJS -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+<script>
+    // 1. INICIALIZE COM SUA PUBLIC KEY DO EMAILJS
+    emailjs.init("NYNgjDWydh1iV0StJ");
+
+    // Total de etapas do quiz (0 até 11)
+    const totalEtapas = 11; 
+    let audioTocando = false;
+
+    function go(n) {
+        document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+        document.getElementById('s' + n).classList.add('active');
+        
+        const porcentagem = (n / totalEtapas) * 100;
+        document.getElementById('barraProgresso').style.width = porcentagem + '%';
+
+        document.querySelector('.card').scrollIntoView({ behavior: 'smooth' });
     }
 
-    .card {
-        padding: 25px 18px;
-        border-radius: 18px;
-        margin-top: 50px;
-        max-width: 100%;
+    // Player de Áudio
+    function toggleMusica() {
+        const audio = document.getElementById('musica');
+        const btn = document.getElementById('btnMusica');
+        if (!audioTocando) {
+            audio.play();
+            btn.innerHTML = "⏸️ Pausar Música";
+            btn.classList.add('playing');
+            audioTocando = true;
+        } else {
+            audio.pause();
+            btn.innerHTML = "🎵 Tocar Música";
+            btn.classList.remove('playing');
+            audioTocando = false;
+        }
     }
 
-    h2 {
-        font-size: 1.4em;
-        margin-bottom: 15px;
-    }
+    // Salvamento Automático (LocalStorage)
+    document.querySelectorAll('.save').forEach(el => {
+        el.value = localStorage.getItem(el.name) || '';
+        el.addEventListener('input', e => localStorage.setItem(e.target.name, e.target.value));
+    });
+    
+    // 2. INTERCEPTADOR DE ENVIO (EMAILJS)
+    document.getElementById('quizForm').addEventListener('submit', function(event) {
+        event.preventDefault(); 
+        
+        const btnSubmit = this.querySelector('button[type="submit"]');
+        btnSubmit.innerHTML = "⏳ Organizando as 100 respostas e enviando...";
+        btnSubmit.disabled = true;
 
-    .subtitle {
-        font-size: 0.85em;
-        margin-bottom: 20px;
-    }
-
-    label {
-        font-size: 0.85em;
-        margin-top: 14px;
-    }
-
-    .options label {
-        padding: 14px 12px;
-        font-size: 0.95em;
-    }
-
-    .options input[type="radio"] {
-        width: 20px;
-        height: 20px;
-        margin-right: 10px;
-    }
-
-    .btns {
-        gap: 8px;
-        margin-top: 25px;
-    }
-
-    button {
-        padding: 15px 10px;
-        font-size: 0.9em;
-    }
-
-    .btn-sound {
-        top: 10px;
-        right: 10px;
-        padding: 8px 14px;
-        font-size: 0.75em;
-        background: rgba(0, 0, 0, 0.75);
-    }
-}
+        emailjs.sendForm('service_2b2t2cv', 'template_ug9blyo', this)
+            .then(function() {
+                btnSubmit.innerHTML = "💖 100 Respostas Enviadas com Sucesso!";
+                btnSubmit.style.background = "#4CAF50";
+                localStorage.clear(); 
+            }, function(error) {
+                console.log('Erro ao enviar:', error);
+                btnSubmit.innerHTML = "❌ Erro ao enviar. Tente novamente.";
+                btnSubmit.style.background = "#f44336";
+                btnSubmit.disabled = false;
+            });
+    });
+</script>
+</body>
+</html>
