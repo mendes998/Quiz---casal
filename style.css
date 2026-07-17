@@ -8,7 +8,7 @@
 
 body { 
     /* Coloque aqui o link ou o nome da sua foto de fundo */
-    background: url('MONTAGEM DE FOTOS.png') no-repeat center center fixed; 
+    background: url('MONTAGEM DE FOTOS .png') no-repeat center center fixed; 
     background-size: cover; 
     display: flex; 
     justify-content: center; 
